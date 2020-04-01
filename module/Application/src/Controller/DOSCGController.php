@@ -2,6 +2,9 @@
 
 namespace Application\Controller;
 
+use LINE\LINEBot;
+use LINE\LINEBot\HTTPClient\CurlHTTPClient;
+use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 
@@ -78,5 +81,40 @@ class DOSCGController extends AbstractActionController
         $results['C'] = $C;
 
         return new JsonModel($results);
+    }
+
+    public function lineBotAction()
+    {
+        $httpClient = new CurlHTTPClient('ov+j0G0eE1v2IaKs0l3nMXLx+SdPSqu0pnpRXl7pG2YKxeF35PFM/qM0lMiiHUgJuKg1Q1FQ7vTF04VadTpoHcJmhLZs/faGJ8sXQv0a09tNz9Xb+3+82QtMoAk4bgR3cfi0f7+Njdo1S0mSTS/CzQdB04t89/1O/w1cDnyilFU=');
+        $bot = new LINEBot($httpClient, ['channelSecret' => '6cb8840aeb5d6a22faa9cf7d6d6f34b3']);
+
+        // Receive data from the LINE Messaging API.
+        $content = file_get_contents('php://input');
+        // Decode json to array.
+        $events = json_decode($content, true);
+        $message = $events['events'][0]['message']['text'];
+
+        if ($message == 'Hi') {
+            $reply = 'Hi there! I\'m just a bot';
+        } else if ($message == 'How are you doing?') {
+            $reply = 'I\'m great! how about you?';
+        } else {
+            sleep(10);
+
+            $reply = 'I\'m not smart enough :(. I don\'t understand your message.';
+        }
+
+        $textMessageBuilder = new TextMessageBuilder($reply);
+        $response = $bot->replyMessage($events['events'][0]['replyToken'], $textMessageBuilder);
+
+        if ($response->isSucceeded()) {
+            return new JsonModel('Succeeded!');
+        }
+
+        // Fail.
+        return new JsonModel([
+            'status' => $response->getHTTPStatus(),
+            'body' => $response->getRawBody()
+        ]);
     }
 }
