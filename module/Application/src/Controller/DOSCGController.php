@@ -66,4 +66,17 @@ class DOSCGController extends AbstractActionController
 
         return new JsonModel($results);
     }
+
+    public function equationAction()
+    {
+        $A = 21;
+        $B = 23 - $A;
+        $C = - (21 + $A);
+
+        $results['A'] = $A;
+        $results['B'] = $B;
+        $results['C'] = $C;
+
+        return new JsonModel($results);
+    }
 }
