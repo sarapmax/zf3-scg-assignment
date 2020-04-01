@@ -34,11 +34,24 @@ return [
                     ],
                 ],
             ],
+            'api' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/api/doscg[/:action]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\DOSCGController::class
+                    ],
+                ],
+            ]
         ],
     ],
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
+            Controller\DOSCGController::class => InvokableFactory::class,
         ],
     ],
     'view_manager' => [
@@ -55,6 +68,9 @@ return [
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',
+        ],
+        'strategies' => [
+            'ViewJsonStrategy',
         ],
     ],
 ];
