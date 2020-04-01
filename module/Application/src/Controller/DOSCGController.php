@@ -10,6 +10,11 @@ use Zend\View\Model\JsonModel;
 
 class DOSCGController extends AbstractActionController
 {
+    public function __construct() {
+        // ** For testing purpose only!.
+        header("Access-Control-Allow-Origin: *");
+    }
+    
     public function sequenceAction() {
         // Declare variables necessary.
         $list = ['X', 'Y', 5, 9, 15, 23, 'Z'];
