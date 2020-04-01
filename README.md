@@ -27,10 +27,18 @@ According to the assignment instruction, there are 3 API endpoints you can visit
 ```
 http://zf3-scg-assignment.test/api/doscg/sequence
 ```
+or on heroku (online)
+```
+https://zf3-scg-assignment.herokuapp.com/public/api/doscg/sequence
+```
 
 (2) If A = 21, A + B = 23, A + C = -21 - Please create a new function for finding B and C value
 ```
 http://zf3-scg-assignment.test/api/doscg/equation
+```
+or on heroku (online)
+```
+https://zf3-scg-assignment.herokuapp.com/public/api/doscg/equation
 ```
 (3) Please use “Google API” for finding the best way to go to Central World from SCG
     Bangsue
@@ -42,4 +50,8 @@ This has been done in the client side.
 ```
 http://zf3-scg-assignment.test/api/doscg/linebot
 ```
-This URL (when deployed) is used as a webhook in Line Bot Messaging API.
+or on heroku (online)
+```
+https://zf3-scg-assignment.herokuapp.com/public/api/doscg/linebot
+```
+This heroku URL is used as a webhook in Line Bot Messaging API.
