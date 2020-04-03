@@ -21,12 +21,12 @@ class DOSCGController extends AbstractActionController
         $keys = ['X', 'Y', 'Z'];
         $diffs = [0];
 
-        // Find the number pattern (2,4,6,8,10,..) and store it to a variable.
+        // Find the pattern numbers (2,4,6,8,10,..) and store them to a variable.
         for ($i = 1; $i < count($list); $i++) {
             $diffs[$i] = $diffs[$i - 1] + 2;
         }
 
-        // Store missing keys (X, Y, Z) to a variable.
+        // Find the missing key positions (X, Y, Z) and store them to a variable.
         $index = [];
         for ($i = 0; $i < count($list); $i++) {
             if (!is_numeric($list[$i])) {
@@ -42,13 +42,13 @@ class DOSCGController extends AbstractActionController
                     // Scan through the left side.
                     if ($index[$i] + 1 < count($list)) {
                         if (is_numeric($list[$index[$i] + 1])) {
-                            // Subtract the pattern number from the next value so that we can get the missing key.
+                            // Subtract the pattern number from the next value and assign the result to the current missing key.
                             $list[$index[$i]] = $list[$index[$i] + 1] - $diffs[$index[$i]];
                         }
                     // Scan through the right side.
                     } else {
                         if (is_numeric($list[$index[$i] - 1])) {
-                            // Add the pattern number to the previous value so that we can get the missing key.
+                            // Add the pattern number of the previous value to itself and assign the result to the current missing key.
                             $list[$index[$i]] = $list[$index[$i] - 1] + $diffs[$index[$i] - 1];
                         }
                     }
@@ -99,14 +99,21 @@ class DOSCGController extends AbstractActionController
         $events = json_decode($content, true);
         $message = $events['events'][0]['message']['text'];
 
-        if ($message == 'Hi') {
-            $reply = 'Hi there! I\'m just a bot';
-        } else if ($message == 'How are you doing?') {
-            $reply = 'I\'m great! how about you?';
-        } else {
-            sleep(10);
+        switch ($message) {
+            case 'Hi': {
+                $reply = 'Hi there! I\'m just a bot';
+                break;
+            }
+            case 'How are you doing?': {
+                $reply = 'I\'m great! how about you?';
+                break;
+            }
+            default: {
+                // When the Line bot doesn't understand the message, the notification goes here.
+                sleep(10);
 
-            $reply = 'I\'m not smart enough :(. I don\'t understand your message.';
+                $reply = 'I\'m not smart enough :(. I don\'t understand your message.';
+            }
         }
 
         $textMessageBuilder = new TextMessageBuilder($reply);
